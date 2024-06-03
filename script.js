@@ -14,6 +14,7 @@ const tabs = document.querySelectorAll(".operations__tab");
 const tabsContent = document.querySelectorAll(".operations__content");
 const nav = document.querySelector(".nav");
 
+// MODAL WINDOW
 const openModal = function (e) {
   e.preventDefault();
   modal.classList.remove("hidden");
@@ -36,7 +37,7 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-// Implementing smooth scrolling behaviour
+// SMOOTH SCROLLING
 btnScrollTo.addEventListener("click", function (e) {
   section1.scrollIntoView({ behavior: "smooth" });
 });
@@ -52,7 +53,7 @@ document.querySelector(".nav__links").addEventListener("click", function (e) {
   }
 });
 
-// Tabbed Component
+// TABBED COMPONENET
 tabsContainer.addEventListener("click", function (e) {
   const clicked = e.target.closest(".operations__tab");
 
@@ -70,7 +71,7 @@ tabsContainer.addEventListener("click", function (e) {
     .classList.add("operations__content--active");
 });
 
-// Menu Fade Animation
+// MENU FADE ANIMATION
 const handleOver = function (e, opacity) {
   if (e.target.classList.contains("nav__link")) {
     const link = e.target;
@@ -88,3 +89,22 @@ const handleOver = function (e, opacity) {
 nav.addEventListener("mouseover", handleOver.bind(0.5));
 
 nav.addEventListener("mouseout", handleOver.bind(1));
+
+// STICKY NAVIGATION
+const header = document.querySelector(".header");
+const navHeight = nav.getBoundingClientRect().height;
+console.log(navHeight);
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  console.log(entry);
+  if (!entry.isIntersecting) nav.classList.add("sticky");
+  else nav.classList.remove("sticky");
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(header);
